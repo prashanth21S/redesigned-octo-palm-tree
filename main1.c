@@ -10,9 +10,14 @@
 #include <errno.h>
 
 #define __NR_isolate_cpu 451
+#define __NR_run_isolated_cpu 452
 
-long isolate_cpu(int pid){
+long isolate_cpu(void){
 	return syscall(__NR_isolate_cpu);
+}
+
+long run_isolated_cpu(int,int){
+	return syscall(__NR_run_isolated_cpu);
 }
 
 /************************************************************
@@ -47,7 +52,7 @@ int main(int argc, char *argv[])
 	//Invoke your system call here, to isolate CPU 0
 	//YOUR CODE START HERE 
 	
-	//long ret;
+	isolate_cpu();
 	
 	
 	//YOUR CODE END HERE
@@ -59,14 +64,7 @@ int main(int argc, char *argv[])
 		// Assign this process to core 0 and change priority to highest priority
 		//YOUR CODE START HERE
 
-		if(isolate_cpu(c1pid)>=0)
-		{
-			printk("Call executed successully\n");
-		}
-		else{
-			printk("Call failed!\n");
-			exit(1);
-		}
+		run_isolated_cpu(c1pid,-20);
 
 		//YOUR CODE END HERE
  
@@ -77,15 +75,9 @@ int main(int argc, char *argv[])
 		c2pid = fork();
 		if(!c2pid) {
 			// Assign this process to core 0 and change priority to lowest priority
-			// YOUR CODE START HERE 
-		if(isolate_cpu(c1pid)>=0)
-		{
-			printk("Call executed successully\n");
-		}
-		else{
-			printk("Call failed!\n");
-			exit(1);
-		}
+			// YOUR CODE START HERE
+			run_isolated_cpu(c2pid,19);	
+
 
 			//YOUR CODE END HERE
 
