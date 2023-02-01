@@ -65,7 +65,8 @@ int main(int argc, char *argv[])
 		//YOUR CODE START HERE
 
 		run_isolated_cpu(c1pid,-20);
-
+		
+		setpriority(PRIO_PROCESS,0,-20);
 		//YOUR CODE END HERE
  
 		cpu_time_used = measureTime();
@@ -79,6 +80,7 @@ int main(int argc, char *argv[])
 			run_isolated_cpu(c2pid,19);	
 
 
+			setpriority(PRIO_PROCESS,0,19);
 			//YOUR CODE END HERE
 
 			cpu_time_used = measureTime();
