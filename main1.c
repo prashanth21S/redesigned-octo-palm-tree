@@ -28,9 +28,13 @@ the part where you are supposed to add your code
 long long func() {
 	long long ans = 0;
 	for(int i = 0; i < 100000; i++) {
-		for(int j = 0; j < 1000000; j++) {
+		for(int j = 0; j < 100000; j++) {
 			int res = i * j;
 			ans = ans + res;
+	 if(sched_getcpu() != 0){
+                printf("Running on core %d!\n", 0);
+                break;
+        }
 		}
 	}
 	return ans;
